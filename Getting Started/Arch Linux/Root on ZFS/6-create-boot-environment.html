@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create a Boot Environment &mdash; OpenZFS  documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme_overrides.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/mandoc.css" type="text/css" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Debian" href="../../Debian/index.html" />
+    <link rel="prev" title="Bootloader" href="5-bootloader.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #29667e" >
+
+          
+          
+          <a href="../../../index.html">
+            
+              <img src="../../../_static/logo_main.png" class="logo" alt="Logo"/>
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Getting Started</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../Alpine Linux/index.html">Alpine Linux</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Arch Linux</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#contents">Contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#support">Support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#installation">Installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#live-image">Live image</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#root-on-zfs">Root on ZFS</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="1-preparation.html">Preparation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="2-system-installation.html">System Installation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="3-system-configuration.html">System Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="5-bootloader.html">Bootloader</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Create a Boot Environment</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#contribute">Contribute</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../Debian/index.html">Debian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Fedora/index.html">Fedora</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FreeBSD.html">FreeBSD</a></li>
+<li class="toctree-l2"><a class="reference external" href="https://wiki.gentoo.org/wiki/ZFS">Gentoo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../NixOS/index.html">NixOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../openSUSE/index.html">openSUSE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../RHEL-based distro/index.html">RHEL-based distro</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Ubuntu/index.html">Ubuntu</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Project and Community/index.html">Project and Community</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Developer Resources/index.html">Developer Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Performance and Tuning/index.html">Performance and Tuning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../Basic Concepts/index.html">Basic Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../man/index.html">Man Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../msg/index.html">ZFS Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../License.html">License</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #29667e" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">OpenZFS</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Getting Started</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Arch Linux</a></li>
+          <li class="breadcrumb-item"><a href="../Arch Linux Root on ZFS.html">Arch Linux Root on ZFS</a></li>
+      <li class="breadcrumb-item active">Create a Boot Environment</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/openzfs/openzfs-docs/blob/master/docs/Getting Started/Arch Linux/Root on ZFS/6-create-boot-environment.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="create-a-boot-environment">
+<h1>Create a Boot Environment<a class="headerlink" href="#create-a-boot-environment" title="Permalink to this headline"></a></h1>
+<p>This page is tested for Alpine, Arch Linux, Fedora and
+RHEL guides.  Not useful for NixOS since system rollback
+is already managed by Nix.</p>
+<p>With Root on ZFS, it is possible to take snapshots of
+existing root file systems, which is a read-only copy of
+that file system.  A new, full-fledged file system –
+clones – can be then created from this snapshot.  This
+bootable clone of the current system is then called a
+“Boot Environment”.</p>
+<p>This could be useful if you are performing a major
+system upgrade and wish to have the option to go back to
+a previous state if the upgrade fails.</p>
+<ol class="arabic">
+<li><p>Identify which dataset is currently mounted as root
+<code class="docutils literal notranslate"><span class="pre">/</span></code> and boot <code class="docutils literal notranslate"><span class="pre">/boot</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>findmnt /
+<span class="c1"># output</span>
+TARGET SOURCE               FSTYPE OPTIONS
+/      rpool/archlinux/root zfs    rw,relatime,xattr,posixacl
+
+findmnt /boot
+<span class="c1"># output</span>
+TARGET SOURCE               FSTYPE OPTIONS
+/boot  bpool/archlinux/root zfs    rw,relatime,xattr,posixacl
+</pre></div>
+</div>
+</li>
+<li><p>Identify your distribution in the dataset (file system) path:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nv">DISTRO</span><span class="o">=</span>archlinux <span class="c1"># or `fedora&#39;, `alma&#39;, `alpinelinux&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Choose a name for the new boot environment:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nv">BE_NAME</span><span class="o">=</span>backup
+</pre></div>
+</div>
+</li>
+<li><p>Take snapshots of the <code class="docutils literal notranslate"><span class="pre">/</span></code> and <code class="docutils literal notranslate"><span class="pre">/boot</span></code> datasets:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>zfs snapshot rpool/<span class="nv">$DISTRO</span>/root@<span class="nv">$BE_NAME</span>
+zfs snapshot bpool/<span class="nv">$DISTRO</span>/root@<span class="nv">$BE_NAME</span>
+</pre></div>
+</div>
+</li>
+<li><p>Create clones from read-only snapshots:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>zfs clone -o <span class="nv">canmount</span><span class="o">=</span>noauto <span class="se">\</span>
+  -o <span class="nv">mountpoint</span><span class="o">=</span>/ <span class="se">\</span>
+  rpool/<span class="nv">$DISTRO</span>/root@<span class="nv">$BE_NAME</span> <span class="se">\</span>
+  rpool/<span class="nv">$DISTRO</span>/<span class="nv">$BE_NAME</span>
+
+zfs clone -o <span class="nv">canmount</span><span class="o">=</span>noauto <span class="se">\</span>
+  -o <span class="nv">mountpoint</span><span class="o">=</span>legacy <span class="se">\</span>
+  bpool/<span class="nv">$DISTRO</span>/root@<span class="nv">$BE_NAME</span> <span class="se">\</span>
+  bpool/<span class="nv">$DISTRO</span>/<span class="nv">$BE_NAME</span>
+</pre></div>
+</div>
+</li>
+<li><p>Mount clone and update file system table (fstab)</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>mount -t zfs -o zfsutil rpool/<span class="nv">$DISTRO</span>/<span class="nv">$BE_NAME</span> /mnt
+mount -t zfs  bpool/<span class="nv">$DISTRO</span>/<span class="nv">$BE_NAME</span> /mnt/boot
+
+sed -i <span class="s2">&quot;s|rpool/</span><span class="nv">$DISTRO</span><span class="s2">/root|rpool/</span><span class="nv">$DISTRO</span><span class="s2">/</span><span class="nv">$BE_NAME</span><span class="s2">|g&quot;</span> /mnt/etc/fstab
+sed -i <span class="s2">&quot;s|bpool/</span><span class="nv">$DISTRO</span><span class="s2">/root|bpool/</span><span class="nv">$DISTRO</span><span class="s2">/</span><span class="nv">$BE_NAME</span><span class="s2">|g&quot;</span> /mnt/etc/fstab
+</pre></div>
+</div>
+<p>If legacy mountpoint is used, omit <code class="docutils literal notranslate"><span class="pre">-o</span> <span class="pre">zfsutil</span></code>
+from mount command.</p>
+</li>
+<li><p>Create GRUB menu for new clone:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nv">m</span><span class="o">=</span><span class="s1">&#39;/dev /proc /sys&#39;</span>
+<span class="k">for</span> i in <span class="nv">$m</span><span class="p">;</span> <span class="k">do</span> mount --rbind <span class="nv">$i</span> /mnt/<span class="nv">$i</span><span class="p">;</span> <span class="k">done</span>
+chroot /mnt /usr/bin/env sh <span class="s">&lt;&lt;EOF</span>
+<span class="s">  if which grub-mkconfig; then</span>
+<span class="s">    grub-mkconfig -o /boot/grub.cfg</span>
+<span class="s">  else</span>
+<span class="s">    grub2-mkconfig -o /boot/grub.cfg</span>
+<span class="s">  fi</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+<p>GRUB menu contains information on kernel version and initramfs.</p>
+</li>
+<li><p>Unmount clone:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>umount -Rl /mnt
+</pre></div>
+</div>
+</li>
+<li><p>Add new boot environment as GRUB menu entry:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>tee -a new_entry <span class="s">&lt;&lt;EOF</span>
+<span class="s">menuentry &#39;ZFS Clone of ${DISTRO}: ${BE_NAME}&#39; { configfile (hd0,gpt2)/${DISTRO}/${BE_NAME}@/grub.cfg }</span>
+<span class="s">EOF</span>
+
+find /boot/efis/ -name <span class="s2">&quot;grub.cfg&quot;</span> <span class="se">\</span>
+<span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> i<span class="p">;</span> <span class="k">do</span>
+    <span class="k">if</span> grep -q <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DISTRO</span><span class="si">}</span><span class="s2">&quot;</span> <span class="nv">$i</span><span class="p">;</span> <span class="k">then</span>
+      cat <span class="nv">$i</span> new_entry &gt; grub.cfg
+      cp grub.cfg <span class="nv">$i</span>
+    <span class="k">fi</span>
+  <span class="k">done</span>
+
+rm new_entry
+</pre></div>
+</div>
+</li>
+<li><p>After reboot, select boot environment entry from GRUB
+menu to boot from the clone.  Press ESC inside
+submenu to return to the previous menu.</p></li>
+<li><p>Steps above can also be used to create a new clone
+from an existing snapshot.</p></li>
+<li><p>To set a boot environment as default, replace
+existing <code class="docutils literal notranslate"><span class="pre">grub.cfg</span></code> inside EFI system partition
+with the one from the boot environment:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>mount -t zfs  bpool/<span class="nv">$DISTRO</span>/<span class="nv">$BE_NAME</span> /mnt
+
+<span class="c1"># backup existing grub.cfg inside EFI</span>
+<span class="c1"># then replace it with menu from clone</span>
+
+mkdir -p /mnt/grub_menu_backup
+<span class="nv">menu_counter</span><span class="o">=</span><span class="m">1</span>
+find /boot/efis/ -name <span class="s2">&quot;grub.cfg&quot;</span> <span class="se">\</span>
+<span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> i<span class="p">;</span> <span class="k">do</span>
+    <span class="k">if</span> grep -q <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DISTRO</span><span class="si">}</span><span class="s2">&quot;</span> <span class="nv">$i</span><span class="p">;</span> <span class="k">then</span>
+      cp <span class="nv">$i</span> /mnt/grub_menu_backup/grub_<span class="si">${</span><span class="nv">menu_counter</span><span class="si">}</span>.cfg
+      <span class="nb">echo</span> <span class="nv">$i</span> &gt; /mnt/grub_menu_backup/grub_<span class="si">${</span><span class="nv">menu_counter</span><span class="si">}</span>_path.txt
+      cp /mnt/grub.cfg <span class="nv">$i</span>
+      <span class="nv">menu_counter</span><span class="o">=</span><span class="k">$((</span><span class="nv">$menu_counter</span> <span class="o">+</span> <span class="m">1</span><span class="k">))</span>
+    <span class="k">fi</span>
+  <span class="k">done</span>
+
+umount -Rl /mnt
+</pre></div>
+</div>
+</li>
+<li><p>To delete the boot environment, check with
+<code class="docutils literal notranslate"><span class="pre">findmnt</span></code> that the boot environment is not
+currently used:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>findmnt /
+findmnt /boot
+</pre></div>
+</div>
+<p>Set variables:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nv">DISTRO</span><span class="o">=</span>archlinux
+</pre></div>
+</div>
+<p>Then check the origin snapshot:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>zfs get origin rpool/archlinux/backup
+<span class="c1"># rpool/archlinux/root@backup</span>
+zfs get origin bpool/archlinux/backup
+<span class="c1"># bpool/archlinux/root@backup</span>
+
+<span class="nv">RM_BE</span><span class="o">=</span>backup
+<span class="nv">RM_SNAPSHOT</span><span class="o">=</span>root@backup
+</pre></div>
+</div>
+<p>Finally, destroy clone (boot environment) and its
+origin snapshot:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>zfs destroy rpool/<span class="si">${</span><span class="nv">DISTRO</span><span class="si">}</span>/<span class="si">${</span><span class="nv">RM_BE</span><span class="si">}</span>
+zfs destroy rpool/<span class="si">${</span><span class="nv">DISTRO</span><span class="si">}</span>/<span class="si">${</span><span class="nv">RM_SNAPSHOT</span><span class="si">}</span>
+
+zfs destroy bpool/<span class="si">${</span><span class="nv">DISTRO</span><span class="si">}</span>/<span class="si">${</span><span class="nv">RM_BE</span><span class="si">}</span>
+zfs destroy bpool/<span class="si">${</span><span class="nv">DISTRO</span><span class="si">}</span>/<span class="si">${</span><span class="nv">RM_SNAPSHOT</span><span class="si">}</span>
+</pre></div>
+</div>
+<p>Remove GRUB entry:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>find /boot/efis/ -name <span class="s2">&quot;grub.cfg&quot;</span> <span class="se">\</span>
+<span class="p">|</span> <span class="k">while</span> <span class="nb">read</span> i<span class="p">;</span> <span class="k">do</span>
+    <span class="k">if</span> grep -q <span class="s2">&quot;</span><span class="si">${</span><span class="nv">DISTRO</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">RM_BE</span><span class="si">}</span><span class="s2">@/grub.cfg&quot;</span> <span class="nv">$i</span><span class="p">;</span> <span class="k">then</span>
+        head -n -1 <span class="nv">$i</span> &gt; grub.cfg
+        cp grub.cfg <span class="nv">$i</span>
+    <span class="k">fi</span>
+  <span class="k">done</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="5-bootloader.html" class="btn btn-neutral float-left" title="Bootloader" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../Debian/index.html" class="btn btn-neutral float-right" title="Debian" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, OpenZFS.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
